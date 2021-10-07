@@ -59,7 +59,7 @@ public class main {
         }
     }
 
-    private static Document httpGetAndParseHtml(String link) {
+    private static Document httpGetAndParseHtml(String link) throws IOException {
         //这是感兴趣的
         CloseableHttpClient httpclient = HttpClients.createDefault();
         System.out.println(link);
@@ -68,13 +68,9 @@ public class main {
         }
         HttpGet httpGet = new HttpGet(link);
         httpGet.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36");
-
-
         try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
-
             System.out.println(response1.getStatusLine());
             HttpEntity entity1 = response1.getEntity();
-
             String html = EntityUtils.toString(entity1);
             return Jsoup.parse(html);
         }
