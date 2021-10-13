@@ -18,7 +18,7 @@ public class JdbcCrawlerDao implements CrawlerDao {
         }
     }
 
-    public String getNextLink(String Sql) throws SQLException {
+    private String getNextLink(String Sql) throws SQLException {
         ResultSet resultSet = null;
         try (PreparedStatement statement = connection.prepareStatement(Sql)) {
             resultSet = statement.executeQuery();
@@ -41,7 +41,7 @@ public class JdbcCrawlerDao implements CrawlerDao {
         return link;
     }
 
-    public void updataDatabash(String link, String sql) throws SQLException {
+    private void updataDatabash(String link, String sql) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, link);
             statement.executeUpdate();
@@ -72,5 +72,15 @@ public class JdbcCrawlerDao implements CrawlerDao {
             }
         }
         return false;
+    }
+
+    @Override
+    public void insertProcessedLink(String link) {
+
+    }
+
+    @Override
+    public void insertLinkToBeProcessed(String href) {
+
     }
 }
