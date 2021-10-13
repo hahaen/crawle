@@ -16,37 +16,40 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.stream.Collectors;
 
-public class Crawler {
+public class Crawler extends Thread {
+    private CrawlerDao dao;
 
-    private CrawlerDao dao = new MyBatisCrawlerDao();
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
+    public Crawler(CrawlerDao dao) {
+        this.dao = dao;
+    }
 
-    public void run() throws SQLException, IOException {
-        String link;
-        //先从数据库中拿出一个连接,如果能被加载，则循环。
-        while ((link = dao.getNextLinkThenDelete()) != null) {
-            //询问数据库该链接是不是被处理过
-            if (dao.isLinkProcessed(link)) {
-                continue;
+    @Override
+    public void run() {
+        try {
+            String link;
+            //先从数据库中拿出一个连接,如果能被加载，则循环。
+            while ((link = dao.getNextLinkThenDelete()) != null) {
+                //询问数据库该链接是不是被处理过
+                if (dao.isLinkProcessed(link)) {
+                    continue;
+                }
+
+                if (isInterestingLink(link)) {
+                    System.out.println(link);
+                    Document doc = httpGetAndParseHtml(link);
+
+                    parseUrlsFromPageAndStoreIntoDatabash(doc);
+
+                    storeIntoDatabaseIfItIsNewPage(doc, link);
+
+                    dao.insertProcessedLink(link);
+                }
             }
-
-            if (isInterestingLink(link)) {
-                System.out.println(link);
-                Document doc = httpGetAndParseHtml(link);
-
-                parseUrlsFromPageAndStoreIntoDatabash(doc);
-
-                storeIntoDatabaseIfItIsNewPage(doc, link);
-
-                dao.insertProcessedLink(link);
-            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
-
-    @SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
-    public static void main(String[] args) throws IOException, SQLException {
-        new Crawler().run();
-    }
-
 
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     private void parseUrlsFromPageAndStoreIntoDatabash(Document doc) throws SQLException {
