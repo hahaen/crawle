@@ -8,7 +8,7 @@ create table LINKS_TO_BE_PROCESSED
     link varchar(2000)
 );
 
-create table news
+create table NEWS
 (
     id          bigint primary key auto_increment,
     title       text,
