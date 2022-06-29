@@ -1,4 +1,4 @@
-package com.github.hcsp;
+package com.github.hahaen;
 
 import org.apache.http.HttpHost;
 import org.apache.ibatis.io.Resources;
@@ -65,7 +65,7 @@ public class ElasticserchDataGenerator {
 
     private static List<News> getNewsFromMysql(SqlSessionFactory sqlSessionFactory) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.github.hcsp.MockDataGenerator.selectNews");
+            return session.selectList("com.github.hahaen.MockDataGenerator.selectNews");
         }
     }
 }

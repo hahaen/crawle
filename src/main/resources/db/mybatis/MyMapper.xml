@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.hcsp.MyMapper">
+<mapper namespace="com.github.hahaen.MyMapper">
     <select id="selectNextAvailableLink" resultType="String">
         select link
         from LINKS_TO_BE_PROCESSED
@@ -13,7 +13,7 @@
         from LINKS_TO_BE_PROCESSED
         where link = #{link}
     </delete>
-    <insert id="insertNews" parameterType="com.github.hcsp.News">
+    <insert id="insertNews" parameterType="com.github.hahaen.News">
         insert into NEWS(title, content, url, created_at, modified_at)
         values (#{title}, #{content}, #{url}, now(), now())
     </insert>

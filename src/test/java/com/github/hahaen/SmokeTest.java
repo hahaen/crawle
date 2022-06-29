@@ -1,11 +1,7 @@
-package com.github.hcsp;
+package com.github.hahaen;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author kangjio
- * @data 13:29
- */
 public class SmokeTest {
     @Test
     public void test(){

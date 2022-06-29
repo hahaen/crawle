@@ -1,4 +1,4 @@
-package com.github.hcsp;
+package com.github.hahaen;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.ExecutorType;
@@ -15,7 +15,7 @@ import java.util.Random;
 public class MockDataGenerator {
     private static void mockData(SqlSessionFactory sqlSessionFactory, int howMany) {
         try (SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
-            List<News> currentNews = session.selectList("com.github.hcsp.MockDataGenerator.selectNews");
+            List<News> currentNews = session.selectList("com.github.hahaen.MockDataGenerator.selectNews");
             int count = howMany - currentNews.size();
             Random random = new Random();
             try {
@@ -28,7 +28,7 @@ public class MockDataGenerator {
                     newsToBeInserted.setModifiedAt(currentTime);
                     newsToBeInserted.setCreatedAt(currentTime);
 
-                    session.selectList("com.github.hcsp.MockDataGenerator.insertNews", newsToBeInserted);
+                    session.selectList("com.github.hahaen.MockDataGenerator.insertNews", newsToBeInserted);
                     System.out.println("left:" + count);
                     if (count % 2000 == 0) {
                         session.flushStatements();

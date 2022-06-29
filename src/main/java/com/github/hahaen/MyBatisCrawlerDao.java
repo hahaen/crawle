@@ -1,4 +1,4 @@
-package com.github.hcsp;
+package com.github.hahaen;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -28,9 +28,9 @@ public class MyBatisCrawlerDao implements CrawlerDao {
     @Override
     public synchronized String getNextLinkThenDelete() throws SQLException {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            String url = session.selectOne("com.github.hcsp.MyMapper.selectNextAvailableLink");
+            String url = session.selectOne("com.github.hahaen.MyMapper.selectNextAvailableLink");
             if (url != null) {
-                session.delete("com.github.hcsp.MyMapper.deleteLink", url);
+                session.delete("com.github.hahaen.MyMapper.deleteLink", url);
             }
             return url;
         }
@@ -39,14 +39,14 @@ public class MyBatisCrawlerDao implements CrawlerDao {
     @Override
     public void inserNewsIntoDatabash(String url, String tiele, String content) throws SQLException {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.selectOne("com.github.hcsp.MyMapper.insertNews", new News(tiele, content, url));
+            session.selectOne("com.github.hahaen.MyMapper.insertNews", new News(tiele, content, url));
         }
     }
 
     @Override
     public boolean isLinkProcessed(String link) throws SQLException {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            int count = session.selectOne("com.github.hcsp.MyMapper.countLink", link);
+            int count = session.selectOne("com.github.hahaen.MyMapper.countLink", link);
             return count != 0;
         }
     }
@@ -57,7 +57,7 @@ public class MyBatisCrawlerDao implements CrawlerDao {
         param.put("tableName", "LINKS_ALREADY_PROCESSED");
         param.put("link", link);
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.selectOne("com.github.hcsp.MyMapper.insertLink", param);
+            session.selectOne("com.github.hahaen.MyMapper.insertLink", param);
         }
     }
 
@@ -67,7 +67,7 @@ public class MyBatisCrawlerDao implements CrawlerDao {
         param.put("tableName", "LINKS_TO_BE_PROCESSED");
         param.put("link", link);
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.selectOne("com.github.hcsp.MyMapper.insertLink", param);
+            session.selectOne("com.github.hahaen.MyMapper.insertLink", param);
         }
     }
 }

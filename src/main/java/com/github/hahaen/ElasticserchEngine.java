@@ -1,4 +1,4 @@
-package com.github.hcsp;
+package com.github.hahaen;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.SearchRequest;
